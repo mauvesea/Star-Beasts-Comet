@@ -257,10 +257,6 @@ GetSpritePosition1::
 	ld hl, _GetSpritePosition1
 	jr SpritePositionBankswitch
 
-GetSpritePosition2::
-	ld hl, _GetSpritePosition2
-	jr SpritePositionBankswitch
-
 SetSpritePosition1::
 	ld hl, _SetSpritePosition1
 	jr SpritePositionBankswitch

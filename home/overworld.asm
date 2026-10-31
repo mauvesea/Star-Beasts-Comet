@@ -2063,6 +2063,12 @@ LoadMapHeader::
 	ldh [hPreviousTileset], a
 	bit 7, b
 	ret nz
+	; The map header itself lives in the map bank. Read its pointer from
+	; the separate pointer bank, then restore the map bank before copying it.
+	ldh a, [hLoadedROMBank]
+	push af
+	ld a, BANK(MapHeaderPointers)
+	call SetCurBank
 	ld hl, MapHeaderPointers
 	ld a, [wCurMap]
 	sla a
@@ -2077,6 +2083,8 @@ LoadMapHeader::
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a ; hl = base of map header
+	pop af
+	call SetCurBank
 ; copy the first 10 bytes (the fixed area) of the map data to D367-D370
 	ld de, wCurMapTileset
 	ld c, $0a

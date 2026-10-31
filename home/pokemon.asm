@@ -378,16 +378,6 @@ PrintLevel::
 	inc c ; increment number of digits to 3
 	jr PrintLevelCommon
 
-; prints the level without leaving off ":L" regardless of level
-; INPUT:
-; hl = destination address
-; [wLoadedMonLevel] = level
-PrintLevelFull::
-	ld a, "<LV>" ; ":L" tile ID
-	ld [hli], a
-	ld c, 3 ; number of digits
-	ld a, [wLoadedMonLevel] ; level
-
 PrintLevelCommon::
 	ld [wd11e], a
 	ld de, wd11e

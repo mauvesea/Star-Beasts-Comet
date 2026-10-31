@@ -1,3 +1,8 @@
+; Only LoadMapHeader reads this table. Keep it outside ROM0 so Home has room
+; for routines that must stay mapped while another ROM bank is selected.
+SECTION "Map Header Pointers", ROMX, BANK[$40]
+INCLUDE "data/maps/map_header_pointers.asm"
+
 SECTION "Maps 1", ROMX
 
 INCLUDE "data/maps/headers/CeladonCity.asm"
