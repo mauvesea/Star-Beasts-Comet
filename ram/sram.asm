@@ -23,6 +23,12 @@ sTileAnimations:: db
 sGameDataEnd::
 sMainDataCheckSum:: db
 
+; Separate from the game checksum so starting a new game preserves the unlock.
+; Two signature bytes distinguish old saves from initialized secret settings.
+sSecretOptionsMagic1:: db
+sSecretOptionsMagic2:: db
+sSecretOptionsFlags:: db
+
 
 ; The PC boxes will not fit into one SRAM bank,
 ; so they use multiple SECTIONs

@@ -109,6 +109,7 @@ MACRO map_connection_struct
 \1ConnectionStripDest::     dw
 \1ConnectionStripLength::   db
 \1ConnectedMapWidth::       db
+\1ConnectedMapHeight::      db
 \1ConnectedMapYAlignment::  db
 \1ConnectedMapXAlignment::  db
 \1ConnectedMapViewPointer:: dw

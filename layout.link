@@ -190,6 +190,7 @@ WRAM0
 	"Party Data"
 	"Main Data"
 	"Current Box Data"
+	"Secret Options RAM"
 	org $df00
 	"Stack"
 VRAM

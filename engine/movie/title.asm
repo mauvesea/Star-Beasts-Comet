@@ -22,6 +22,7 @@ SetDefaultNamesBeforeTitlescreen::
 ;	ld [wAudioSavedROMBank], a
 
 DisplayTitleScreen:
+	farcall InitTitleSecretOptions
 	call GBPalWhiteOut
 	ld a, $1
 	ldh [hAutoBGTransferEnabled], a
@@ -237,12 +238,18 @@ DisplayTitleScreen:
 ; Keep scrolling in new mons indefinitely until the user performs input.
 .awaitUserInterruptionLoop
 	ld c, 200
-	call CheckForUserInterruption
+	call TitleScreenWaitForInput
 	jr c, .finishedWaiting
+	ld a, [wTitleCodeProgress]
+	and a
+	jr nz, .awaitUserInterruptionLoop
 	call TitleScreenScrollInMon
 	ld c, 1
-	call CheckForUserInterruption
+	call TitleScreenWaitForInput
 	jr c, .finishedWaiting
+	ld a, [wTitleCodeProgress]
+	and a
+	jr nz, .awaitUserInterruptionLoop
 	call TitleScreenPickNewMon
 	jr .awaitUserInterruptionLoop
 
@@ -277,6 +284,21 @@ ENDC
 
 .doClearSaveDialogue
 	farjp DoClearSaveDialogue
+
+TitleScreenWaitForInput:
+	push bc
+	farcall PollTitleSecretCode
+	pop bc
+	ld a, [wTitleInputExit]
+	and a
+	jr nz, .exit
+	dec c
+	jr nz, TitleScreenWaitForInput
+	and a
+	ret
+.exit
+	scf
+	ret
 
 TitleScreenPickNewMon:
 	ld a, HIGH(vBGMap0)

@@ -204,7 +204,7 @@ MACRO connection
 	dw \2_Blocks + _blk
 	dw wOverworldMap + _map
 	db _len - _src
-	db \3_WIDTH
+	db \3_WIDTH, \3_HEIGHT
 	db _y, _x
 	dw wOverworldMap + _win
 ENDM

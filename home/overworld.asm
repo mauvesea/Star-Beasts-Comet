@@ -1248,6 +1248,16 @@ IsSpriteInFrontOfPlayer2::
 ; function to check if the player will jump down a ledge and check if the tile ahead is passable (when not surfing)
 ; sets the carry flag if there is a collision, and unsets it if there isn't a collision
 CollisionCheckOnLand::
+	ld a, [wWalkThroughWalls]
+	and a
+	jr z, .normalCollisionCheck
+	call .checkInvalidMapExit
+	jp c, .collision
+	ldh a, [hJoyHeld]
+	and B_BUTTON
+	jr z, .normalCollisionCheck
+	jr .noCollision
+.normalCollisionCheck
 	ld a, [wd736]
 	bit 6, a ; is the player jumping?
 	jr nz, .noCollision
@@ -1290,6 +1300,121 @@ CollisionCheckOnLand::
 	ret
 .noCollision
 	and a
+	ret
+
+; A selected cheat never allows a step beyond the map without a connection.
+; Preserve bc because the ordinary collision path uses its caller's registers.
+.checkInvalidMapExit
+	push bc
+	ld a, [wd736]
+	bit 6, a
+	jp nz, .allowed ; scripted ledge movement keeps its original behavior
+	ld a, [wSimulatedJoypadStatesIndex]
+	and a
+	jp nz, .allowed
+	ld a, [wPlayerDirection]
+	cp PLAYER_DIR_UP
+	jr z, .checkTopEdge
+	cp PLAYER_DIR_DOWN
+	jr z, .checkBottomEdge
+	cp PLAYER_DIR_LEFT
+	jr z, .checkLeftEdge
+	cp PLAYER_DIR_RIGHT
+	jp nz, .allowed
+	ld a, [wXCoord]
+	ld b, a
+	ld a, [wCurMapWidth]
+	jr .checkFarEdge
+.checkLeftEdge
+	ld a, [wXCoord]
+	ld b, a
+	and a
+	jr z, .leftBoundary
+	ld a, [wCurMapWidth]
+	jr .checkInsideMap
+.checkTopEdge
+	ld a, [wYCoord]
+	ld b, a
+	and a
+	jr z, .topBoundary
+	ld a, [wCurMapHeight]
+.checkInsideMap
+	add a
+	cp b
+	jr c, .blockedBoundary
+	jr z, .blockedBoundary
+	jr .allowed
+.checkBottomEdge
+	ld a, [wYCoord]
+	ld b, a
+	ld a, [wCurMapHeight]
+.checkFarEdge
+	add a
+	dec a
+	cp b
+	jr c, .blockedBoundary
+	jr z, .farBoundary
+	jr .allowed
+.topBoundary
+	ld a, NORTH
+	jr .checkBoundaryConnection
+.leftBoundary
+	ld a, WEST
+	jr .checkBoundaryConnection
+.farBoundary
+	ld a, [wPlayerDirection]
+	cp PLAYER_DIR_DOWN
+	ld a, SOUTH
+	jr z, .checkBoundaryConnection
+	ld a, EAST
+.checkBoundaryConnection
+	ld b, a
+	ld a, [wMapConnections]
+	and b
+	jr z, .blockedBoundary
+	ld a, b
+	cp NORTH
+	jr z, .checkNorthLanding
+	cp SOUTH
+	jr z, .checkSouthLanding
+	cp WEST
+	jr z, .checkWestLanding
+	ld a, [wEastConnectedMapYAlignment]
+	ld hl, wEastConnectedMapHeight
+	jr .checkVerticalLanding
+.checkWestLanding
+	ld a, [wWestConnectedMapYAlignment]
+	ld hl, wWestConnectedMapHeight
+	jr .checkVerticalLanding
+.checkNorthLanding
+	ld a, [wNorthConnectedMapXAlignment]
+	ld hl, wNorthConnectedMapWidth
+	jr .checkHorizontalLanding
+.checkSouthLanding
+	ld a, [wSouthConnectedMapXAlignment]
+	ld hl, wSouthConnectedMapWidth
+.checkHorizontalLanding
+	ld c, a
+	ld a, [wXCoord]
+	jr .checkLandingCoord
+.checkVerticalLanding
+	ld c, a
+	ld a, [wYCoord]
+.checkLandingCoord
+	add c ; the coordinate after the map connection's alignment
+	ld c, a
+	ld a, [hl] ; connected map dimension in blocks
+	add a ; convert to walkable tiles
+	cp c
+	jr c, .blockedBoundary
+	jr z, .blockedBoundary
+.allowed
+	pop bc
+	and a
+	ret
+.blockedBoundary
+	pop bc
+	scf
 	ret
 
 ; function that checks if the tile in front of the player is passable
@@ -2334,7 +2459,7 @@ LoadMapHeader::
 ; function to copy map connection data from ROM to WRAM
 ; Input: hl = source, de = destination
 CopyMapConnectionHeader::
-	ld c, $0b
+	ld c, $0c
 .loop
 	ld a, [hli]
 	ld [de], a

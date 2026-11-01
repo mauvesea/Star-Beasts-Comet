@@ -39,6 +39,12 @@ INCLUDE "engine/events/display_pokedex.asm"
 INCLUDE "data/items/tmhm_names.asm"
 
 
+SECTION "Secret Options", ROMX, BANK[$40]
+
+INCLUDE "engine/menus/options.asm"
+INCLUDE "engine/menus/secret_options.asm"
+
+
 SECTION "bank3", ROMX
 
 INCLUDE "engine/joypad.asm"

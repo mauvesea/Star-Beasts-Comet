@@ -2391,6 +2391,16 @@ wBoxMonNicksEnd::
 wBoxDataEnd::
 
 
+SECTION "Secret Options RAM", WRAM0
+
+; Outside saved game data so existing save offsets remain compatible.
+wSecretOptionsState:: db ; 0 = no valid save, 1 = locked, 2 = unlocked
+wWalkThroughWalls:: db
+wTitleCodeProgress:: db
+wSecretSaveValid:: db
+wTitleInputExit:: db
+
+
 SECTION "Stack", WRAM0
 
 ; the stack grows downward
