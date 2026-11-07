@@ -33,9 +33,12 @@ PrepareOAMData::
 	jr nz, .visible
 
 	call GetSpriteScreenXY
-	jr .nextSprite
+	jp .nextSprite
 
 .visible
+	xor a
+	ldh [hSpritePriority], a
+	ld a, [wd5cd]
 	cp $a0 ; is the sprite unchanging like an item ball or boulder?
 	jr c, .usefacing
 
@@ -45,6 +48,25 @@ PrepareOAMData::
 	jr .next
 
 .usefacing
+	and $f
+	cp 3 ; mirrored walking frame while facing down
+	jr z, .checkHeadFlip
+	cp 7 ; mirrored walking frame while facing up
+	jr nz, .next
+.checkHeadFlip
+	dec e
+	dec e
+	ld a, [de] ; picture ID
+	inc e
+	inc e
+	dec a ; picture IDs start at 1
+	ld l, a
+	ld h, 0
+	ld bc, SpriteHeadFlipFlags
+	add hl, bc
+	ld a, [hl]
+	ldh [hSpritePriority], a
+	ld a, [wd5cd]
 	and $f
 
 .next
@@ -57,8 +79,16 @@ PrepareOAMData::
 	add $5
 	ld e, a
 	ld a, [de] ; [x#SPRITESTATEDATA2_GRASSPRIORITY]
+	push bc
+	ld b, a
+	ldh a, [hSpritePriority]
+	and 1 ; preserve the head flip flag
+	ld c, a
+	ld a, b
 	and $80
+	or c
 	ldh [hSpritePriority], a ; temp store sprite priority
+	pop bc
 	pop de
 
 ; read the entry from the table
@@ -74,6 +104,11 @@ PrepareOAMData::
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
+	ldh a, [hSpritePriority]
+	bit 0, a
+	jr z, .normalLayout
+	ld hl, SpriteFacingAndAnimationTable.HeadUnflippedOAM
+.normalLayout
 
 	call GetSpriteScreenXY
 
@@ -127,6 +162,7 @@ PrepareOAMData::
 	bit 1, a ; is the tile allowed to set the sprite priority bit?
 	jr z, .skipPriority
 	ldh a, [hSpritePriority]
+	and $80
 	or [hl]
 .skipPriority
 	inc hl

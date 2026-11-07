@@ -1,4 +1,7 @@
 ; overworld sprites
+DEF FLIPPED   EQU 0
+DEF UNFLIPPED EQU 1
+
 ; SpriteSheetPointerTable indexes (see data/sprites/sprites.asm)
 	const_def
 	const SPRITE_NONE                    ; $00

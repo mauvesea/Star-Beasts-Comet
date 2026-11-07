@@ -57,3 +57,22 @@ SpriteFacingAndAnimationTable:
 	db 0, 0, OAM_HFLIP ; top right
 	db 8, 8, OAM_HFLIP | OAMFLAG_CANBEMASKED ; bottom left
 	db 8, 0, OAM_HFLIP | OAMFLAG_CANBEMASKED | OAMFLAG_ENDOFDATA ; bottom right
+
+.HeadUnflippedOAM:
+	; keep the top two 8x8 tiles in place; mirror only the legs
+	db 0, 0, $00 ; top left
+	db 0, 8, $00 ; top right
+	db 8, 8, OAM_HFLIP | OAMFLAG_CANBEMASKED ; bottom left
+	db 8, 0, OAM_HFLIP | OAMFLAG_CANBEMASKED | OAMFLAG_ENDOFDATA ; bottom right
+
+; Same sprite order as SpriteSheetPointerTable. The third overworld_sprite
+; argument controls whether the head is mirrored on vertical walking frame 3.
+MACRO overworld_sprite
+	db \3
+ENDM
+
+SpriteHeadFlipFlags:
+	table_width 1, SpriteHeadFlipFlags
+	INCLUDE "data/sprites/entries.asm"
+	assert_table_length NUM_SPRITES
+PURGE overworld_sprite

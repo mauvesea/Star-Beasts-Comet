@@ -427,12 +427,13 @@ UpdateMovingBgTiles::
 
 	ld a, [wMovingBGTilesCounter2]
 	and 3
-	cp 2
-	ld hl, FlowerTile1
-	jr c, .copy
+	cp 1
 	ld hl, FlowerTile2
 	jr z, .copy
+	cp 3
 	ld hl, FlowerTile3
+	jr z, .copy
+	ld hl, FlowerTile1
 .copy
 	ld de, vTileset tile $03
 	ld c, $10
