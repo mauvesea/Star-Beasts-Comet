@@ -4,7 +4,10 @@ HandleLedges::
 	ret nz
 	ld a, [wCurMapTileset]
 	and a ; OVERWORLD
+	jr z, .checkLedge
+	cp BEACH
 	ret nz
+.checkLedge
 	predef GetTileAndCoordsInFrontOfPlayer
 	ld a, [wSpritePlayerStateData1FacingDirection]
 	ld b, a

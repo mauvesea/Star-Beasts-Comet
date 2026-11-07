@@ -9,6 +9,7 @@ Underground_Coll::
 	coll_tiles $0b, $0c, $13, $15, $18, $19, $1a, $1d
 
 TrailerParkTileset_Coll::
+Beach_Coll::
 Overworld_Coll::
 	coll_tiles $00, $03, $09, $0d, $10, $1b, $1d, $20, $21, $25, $26, $28, $29, $2c, $30, $31, $33, $39, $3c, $52, $54, $58, $5b, $5e, $5f
 

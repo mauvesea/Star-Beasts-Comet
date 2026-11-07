@@ -728,6 +728,8 @@ CheckIfInOutsideMap::
 	ld a, [wCurMapTileset]
 	and a ; most towns/routes have tileset 0 (OVERWORLD)
 	ret z
+	cp BEACH
+	ret z
 	cp SAFFRONTILESET
 	jr z, .Finish
 	cp HILL
@@ -756,6 +758,8 @@ ExtraWarpCheck::
 	jr z, .useFunction2
 	ld a, [wCurMapTileset]
 	and a ; outside tileset (OVERWORLD)
+	jr z, .useFunction2
+	cp BEACH
 	jr z, .useFunction2
 	cp SHIP ; S.S. Anne tileset
 	jr z, .useFunction2

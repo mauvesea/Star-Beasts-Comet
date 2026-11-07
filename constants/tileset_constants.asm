@@ -30,4 +30,5 @@
 	const SAFFRONTILESET
 	const HILL
 	const TRAILER_PARK
+	const BEACH
 DEF NUM_TILESETS EQU const_value

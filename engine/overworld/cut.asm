@@ -4,6 +4,8 @@ UsedCut:
 	ld a, [wCurMapTileset]
 	and a ; OVERWORLD
 	jr z, .overworld
+	cp BEACH
+	jr z, .overworld
 	cp GYM
 	jr nz, .nothingToCut
 	ld a, [wTileInFrontOfPlayer]

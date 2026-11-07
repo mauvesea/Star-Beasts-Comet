@@ -83,3 +83,8 @@ HillTileset_Block::        INCBIN "gfx/blocksets/hill.bst"
 
 TrailerParkTileset_GFX::     INCBIN "gfx/tilesets/trailer_park.2bpp"
 TrailerParkTileset_Block::   INCBIN "gfx/blocksets/trailer_park.bst"
+
+SECTION "Tileset Beach", ROMX
+
+Beach_GFX::          INCBIN "gfx/tilesets/beach.2bpp"
+Beach_Block::        INCBIN "gfx/blocksets/beach.bst"

@@ -1,5 +1,6 @@
 BikeRidingTilesets::
 	db OVERWORLD
+	db BEACH
 	db FOREST
 	db UNDERGROUND
 	db SHIP_PORT

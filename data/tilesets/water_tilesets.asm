@@ -1,6 +1,7 @@
 ; tilesets with water
 WaterTilesets:
 	db OVERWORLD
+	db BEACH
 	db FOREST
 	db DOJO
 	db GYM
