@@ -2,6 +2,7 @@
 WaterTilesets:
 	db OVERWORLD
 	db BEACH
+	db DAM_TILESET
 	db FOREST
 	db DOJO
 	db GYM

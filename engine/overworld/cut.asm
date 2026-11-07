@@ -6,6 +6,8 @@ UsedCut:
 	jr z, .overworld
 	cp BEACH
 	jr z, .overworld
+	cp DAM_TILESET
+	jr z, .overworld
 	cp GYM
 	jr nz, .nothingToCut
 	ld a, [wTileInFrontOfPlayer]

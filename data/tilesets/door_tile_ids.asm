@@ -1,6 +1,7 @@
 DoorTileIDPointers:
 	dbw OVERWORLD,   .OverworldDoorTileIDs
 	dbw BEACH,       .BeachDoorTileIDs
+	dbw DAM_TILESET, .DamTilesetDoorTileIDs
 	dbw FOREST,      .ForestDoorTileIDs
 	dbw MART,        .MartDoorTileIDs
 	dbw HOUSE,       .HouseDoorTileIDs
@@ -26,6 +27,7 @@ MACRO door_tiles
 ENDM
 
 .BeachDoorTileIDs:
+.DamTilesetDoorTileIDs:
 .OverworldDoorTileIDs:
 	door_tiles $1B, $58
 

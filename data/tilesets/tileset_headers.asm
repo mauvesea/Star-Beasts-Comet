@@ -39,4 +39,5 @@ Tilesets:
 	tileset HillTileset,    -1, -1, -1,  -1, TILEANIM_NONE
 	tileset TrailerParkTileset,    -1, -1, -1, $52, TILEANIM_WATER_FLOWER
 	tileset Beach,        -1, -1, -1, $52, TILEANIM_WATER_FLOWER
+	tileset Dam_Tileset,  -1, -1, -1, $52, TILEANIM_WATER_FLOWER
 	assert_table_length NUM_TILESETS

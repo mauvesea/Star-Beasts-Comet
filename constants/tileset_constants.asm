@@ -31,4 +31,5 @@
 	const HILL
 	const TRAILER_PARK
 	const BEACH
+	const DAM_TILESET
 DEF NUM_TILESETS EQU const_value

@@ -6,6 +6,8 @@ HandleLedges::
 	and a ; OVERWORLD
 	jr z, .checkLedge
 	cp BEACH
+	jr z, .checkLedge
+	cp DAM_TILESET
 	ret nz
 .checkLedge
 	predef GetTileAndCoordsInFrontOfPlayer

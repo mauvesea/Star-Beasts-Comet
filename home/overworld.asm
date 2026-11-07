@@ -730,6 +730,8 @@ CheckIfInOutsideMap::
 	ret z
 	cp BEACH
 	ret z
+	cp DAM_TILESET
+	ret z
 	cp SAFFRONTILESET
 	jr z, .Finish
 	cp HILL
@@ -760,6 +762,8 @@ ExtraWarpCheck::
 	and a ; outside tileset (OVERWORLD)
 	jr z, .useFunction2
 	cp BEACH
+	jr z, .useFunction2
+	cp DAM_TILESET
 	jr z, .useFunction2
 	cp SHIP ; S.S. Anne tileset
 	jr z, .useFunction2

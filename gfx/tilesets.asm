@@ -88,3 +88,8 @@ SECTION "Tileset Beach", ROMX
 
 Beach_GFX::          INCBIN "gfx/tilesets/beach.2bpp"
 Beach_Block::        INCBIN "gfx/blocksets/beach.bst"
+
+SECTION "Tileset Dam", ROMX
+
+Dam_Tileset_GFX::    INCBIN "gfx/tilesets/dam_tileset.2bpp"
+Dam_Tileset_Block::  INCBIN "gfx/blocksets/dam_tileset.bst"
